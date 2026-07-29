@@ -1,3 +1,52 @@
+// ==================== ЗВУКИ (Web Audio API) ====================
+let audioCtx = null;
+function getAudioContext() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+function playSound(type) {
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    if (type === 'click') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(600, now + 0.1);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      osc.start(now);
+      osc.stop(now + 0.1);
+    } else if (type === 'achievement') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523, now);
+      osc.frequency.setValueAtTime(659, now + 0.15);
+      osc.frequency.setValueAtTime(784, now + 0.3);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+      osc.start(now);
+      osc.stop(now + 0.5);
+    } else if (type === 'complete') {
+      const notes = [523, 659, 784, 1047];
+      notes.forEach((freq, i) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'triangle';
+        o.frequency.value = freq;
+        g.gain.setValueAtTime(0.12, now + i * 0.15);
+        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.15 + 0.3);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(now + i * 0.15);
+        o.stop(now + i * 0.15 + 0.3);
+      });
+    }
+  } catch(e) {}
+}
+
+// ==================== СОСТОЯНИЕ ====================
 const STATE = {
   totalXP: 0,
   level: 1,
@@ -70,6 +119,7 @@ function showAchievement(emoji, title, sub) {
   document.getElementById('achSub').textContent = sub;
   const toast = document.getElementById('achievementToast');
   toast.classList.add('show');
+  playSound('achievement');
   setTimeout(() => toast.classList.remove('show'), 3500);
 }
 
@@ -133,12 +183,14 @@ function submitChoiceAnswer(index, btn) {
   document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
   if (btn) btn.classList.add('selected');
   STATE.answers.push(STATE.currentTest.questions[STATE.currentQuestionIndex].answers[index].value);
+  playSound('click');
   setTimeout(() => nextQuestion(), 200);
 }
 
 function submitSliderAnswer() {
   const slider = document.getElementById('sliderInput');
   STATE.answers.push(parseInt(slider.value));
+  playSound('click');
   nextQuestion();
 }
 
@@ -149,7 +201,6 @@ function nextQuestion() {
   } else {
     renderQuestion();
     updateQuizProgress();
-    // реклама в середине теста отключена, чтобы не ломать вёрстку
   }
 }
 
@@ -213,6 +264,9 @@ function finishTest() {
   checkAchievements();
   saveState();
   window.scrollTo({top:0, behavior:'smooth'});
+
+  playSound('complete');
+  launchConfetti(); // функция из ui.js
 }
 
 function goHome() {
@@ -227,12 +281,84 @@ function goHome() {
 
 function retakeTest() { if (STATE.currentTest) startTest(STATE.currentTest.id); }
 
+// ==================== CANVAS-КАРТОЧКА РЕЗУЛЬТАТА ====================
 function shareResult() {
-  const title = document.querySelector('.result-title')?.textContent || '';
-  const emoji = document.querySelector('.result-emoji')?.textContent || '';
-  const text = `${emoji} Мой результат: ${title}! Пройди тест на ТвойТип: ` + window.location.href;
-  if (navigator.share) { navigator.share({title:'Результат теста',text:text,url:window.location.href}).catch(()=>{}); }
-  else { navigator.clipboard.writeText(text).then(()=> showAchievement('📋','Скопировано!','Отправь другу')); }
+  const resultCard = document.getElementById('resultCard');
+  const emoji = resultCard.querySelector('.result-emoji')?.textContent || '';
+  const title = resultCard.querySelector('.result-title')?.textContent || '';
+  const desc = resultCard.querySelector('.result-description')?.textContent || '';
+  const score = resultCard.querySelector('.result-score')?.textContent || '';
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 600;
+  canvas.height = 400;
+  const ctx = canvas.getContext('2d');
+
+  // Фон
+  const gradient = ctx.createLinearGradient(0, 0, 600, 400);
+  gradient.addColorStop(0, '#1a1a2e');
+  gradient.addColorStop(1, '#16213e');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 600, 400);
+
+  // Обводка
+  ctx.strokeStyle = '#7c3aed';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(2, 2, 596, 396);
+
+  // Эмодзи
+  ctx.font = '80px serif';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff';
+  ctx.fillText(emoji, 300, 110);
+
+  // Заголовок
+  ctx.font = 'bold 28px Inter, sans-serif';
+  ctx.fillStyle = '#a78bfa';
+  ctx.fillText(title, 300, 170);
+
+  // Очки
+  if (score) {
+    ctx.font = '20px Inter, sans-serif';
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillText(score, 300, 205);
+  }
+
+  // Описание (перенос строк)
+  ctx.font = '16px Inter, sans-serif';
+  ctx.fillStyle = '#94a3b8';
+  const words = desc.split(' ');
+  let line = '';
+  let y = 250;
+  for (const word of words) {
+    const testLine = line + word + ' ';
+    if (ctx.measureText(testLine).width > 500) {
+      ctx.fillText(line, 300, y);
+      line = word + ' ';
+      y += 22;
+    } else {
+      line = testLine;
+    }
+  }
+  if (line) ctx.fillText(line, 300, y);
+
+  // Ссылка
+  ctx.font = '12px Inter, sans-serif';
+  ctx.fillStyle = '#64748b';
+  ctx.fillText('Пройди тест: tvoitip.github.io', 300, 370);
+
+  // Скачивание
+  canvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tvoitip-result.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showAchievement('🖼️', 'Картинка сохранена!', 'Делись с друзьями');
+  });
 }
 
 loadState();
