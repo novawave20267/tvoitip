@@ -30,7 +30,54 @@ document.getElementById('categoryNav').addEventListener('click', e => {
   }
 });
 
-// Фоновые частицы
+// ==================== КОНФЕТТИ ====================
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+  const colors = ['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0'];
+  for (let i = 0; i < 150; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      w: Math.random() * 10 + 4,
+      h: Math.random() * 6 + 2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      vy: Math.random() * 3 + 1,
+      vx: (Math.random() - 0.5) * 2,
+      rotation: Math.random() * 360,
+      rotSpeed: (Math.random() - 0.5) * 5
+    });
+  }
+
+  let frame = 0;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.y += p.vy;
+      p.x += p.vx;
+      p.rotation += p.rotSpeed;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+    frame++;
+    if (frame < 120) {
+      requestAnimationFrame(animate);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  animate();
+}
+
+// ==================== ФОНОВЫЕ ЧАСТИЦЫ (оставляем) ====================
 (function initParticles() {
   const canvas = document.getElementById('particlesCanvas');
   const ctx = canvas.getContext('2d');
@@ -78,4 +125,4 @@ document.getElementById('categoryNav').addEventListener('click', e => {
 
 updateUI();
 renderTests('all');
-console.log('🚀 ТвойТип готов! 12 тестов.');
+console.log('🚀 ТвойТип обновлён! Звуки, конфетти, canvas-карточки, новые тесты.');
