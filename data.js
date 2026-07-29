@@ -81,7 +81,7 @@ const TESTS_DB = [
       { range:[3,6], title:'⚡ Быстрый разум', description:'Вы соображаете быстро и точно!', emoji:'⚡', color:'#06b6d4' }
     ]
   },
-  // ========== Персонажи (4 теста: GOT, Хогвартс, Марвел, DC) ==========
+  // ========== Персонажи (4 теста) ==========
   {
     id:'got-character', title:'⚔️ Кто ты из Игры Престолов?', category:'character', emoji:'🐉', questionsCount:8, timeLimit:0, difficulty:'easy', badges:['hot'],
     questions:[
@@ -206,7 +206,7 @@ const TESTS_DB = [
       {key:'joker',title:'🤡 Джокер',description:'Мастер хаоса, живёте ради веселья.',emoji:'🤡',color:'#a855f7'}
     ]
   },
-  // ========== Психотип (1 тест) ==========
+  // ========== Психотип (6 тестов) ==========
   {
     id:'psychotype', title:'🔮 Твой психотип личности', category:'personality', emoji:'🔮', questionsCount:7, timeLimit:0, difficulty:'medium', badges:['new'],
     questions:[
@@ -224,6 +224,92 @@ const TESTS_DB = [
       {key:'ENFP',title:'🦋 Вдохновитель (ENFP)',description:'Генератор идей.',emoji:'🦋',color:'#ec4899'},
       {key:'ISTJ',title:'🛡️ Хранитель (ISTJ)',description:'Надёжность и порядок.',emoji:'🛡️',color:'#64748b'},
       {key:'ENTP',title:'💡 Изобретатель (ENTP)',description:'Обожаете нестандартные решения.',emoji:'💡',color:'#06b6d4'}
+    ]
+  },
+  {
+    id:'spirit-animal', title:'🦉 Твоё тотемное животное', category:'personality', emoji:'🦉', questionsCount:6, timeLimit:0, difficulty:'easy', badges:[],
+    questions:[
+      { type:'choice', question:'Как вы проводите свободное время?', answers:[{text:'В окружении друзей',value:'dolphin'},{text:'На природе',value:'wolf'},{text:'За чтением',value:'owl'},{text:'В спортзале',value:'bear'}] },
+      { type:'choice', question:'Ваш главный недостаток?', answers:[{text:'Слишком доверчивый',value:'dolphin'},{text:'Импульсивность',value:'wolf'},{text:'Перфекционизм',value:'owl'},{text:'Лень',value:'bear'}] },
+      { type:'choice', question:'Что вас вдохновляет?', answers:[{text:'Гармония',value:'dolphin'},{text:'Свобода',value:'wolf'},{text:'Мудрость',value:'owl'},{text:'Сила',value:'bear'}] },
+      { type:'choice', question:'Какая стихия вам ближе?', answers:[{text:'Вода',value:'dolphin'},{text:'Лес',value:'wolf'},{text:'Воздух',value:'owl'},{text:'Горы',value:'bear'}] },
+      { type:'slider', question:'Насколько вы общительны?', min:0,max:100, labels:['Одиночка','Душа компании'] },
+      { type:'choice', question:'Какая суперсила вам нужна?', answers:[{text:'Эмпатия',value:'dolphin'},{text:'Скорость',value:'wolf'},{text:'Телепатия',value:'owl'},{text:'Неуязвимость',value:'bear'}] }
+    ],
+    calcResult(scores){ const f={}; scores.forEach(s=>{if(typeof s==='string')f[s]=(f[s]||0)+1}); return Object.entries(f).sort((a,b)=>b[1]-a[1])[0][0]; },
+    results:[
+      {key:'dolphin',title:'🐬 Дельфин',description:'Вы умны, дружелюбны и любите гармонию.',emoji:'🐬',color:'#06b6d4'},
+      {key:'wolf',title:'🐺 Волк',description:'Свободолюбивы, преданы стае и обладаете интуицией.',emoji:'🐺',color:'#94a3b8'},
+      {key:'owl',title:'🦉 Сова',description:'Мудрый стратег, цените знания и тишину.',emoji:'🦉',color:'#a78bfa'},
+      {key:'bear',title:'🐻 Медведь',description:'Сильный, надёжный, но любите комфорт.',emoji:'🐻',color:'#f59e0b'}
+    ]
+  },
+  {
+    id:'stress-test', title:'😌 Тест на стрессоустойчивость', category:'personality', emoji:'😌', questionsCount:5, timeLimit:0, difficulty:'medium', badges:[], showScore:true,
+    questions:[
+      { type:'choice', question:'Неожиданный дедлайн на работе:', answers:[{text:'Паника, стресс',value:0},{text:'Быстро составляю план',value:2},{text:'Спокойно, но усердно работаю',value:1}] },
+      { type:'choice', question:'В пробке важная встреча:', answers:[{text:'Нервничаю, сигналю',value:0},{text:'Слушаю музыку, жду',value:2},{text:'Нервничаю, но звоню предупредить',value:1}] },
+      { type:'slider', question:'Как часто вы испытываете тревогу?', min:0,max:100, labels:['Редко','Постоянно'] },
+      { type:'choice', question:'Критика в ваш адрес:', answers:[{text:'Сильно расстраиваюсь',value:0},{text:'Анализирую и делаю выводы',value:2},{text:'Зависит от настроения',value:1}] },
+      { type:'choice', question:'Перед сном мысли:', answers:[{text:'Кручу проблемы',value:0},{text:'Планирую завтра',value:2},{text:'Читаю, отвлекаюсь',value:1}] }
+    ],
+    results:[
+      { range:[0,4], title:'🌪️ Высокая тревожность', description:'Стресс сильно влияет на вас. Попробуйте техники релаксации.', emoji:'🌪️', color:'#ef4444' },
+      { range:[4,7], title:'⚖️ Умеренный уровень', description:'Вы справляетесь, но иногда стресс берёт верх.', emoji:'⚖️', color:'#f59e0b' },
+      { range:[7,11], title:'🧘 Железобетонный', description:'Вас сложно выбить из колеи. Отличная стрессоустойчивость!', emoji:'🧘', color:'#10b981' }
+    ]
+  },
+  {
+    id:'introvert-extrovert', title:'🤫 Интроверт или экстраверт?', category:'personality', emoji:'🤫', questionsCount:7, timeLimit:0, difficulty:'easy', badges:[],
+    questions:[
+      { type:'choice', question:'После долгого общения вы:', answers:[{text:'Заряжаюсь энергией',value:'E'},{text:'Чувствую опустошение',value:'I'}] },
+      { type:'choice', question:'Новые знакомства:', answers:[{text:'Легко и приятно',value:'E'},{text:'Напрягают',value:'I'}] },
+      { type:'slider', question:'Насколько вам комфортно в толпе?', min:0,max:100, labels:['Ужас','Обожаю'] },
+      { type:'choice', question:'Работаете лучше:', answers:[{text:'В команде',value:'E'},{text:'В одиночестве',value:'I'}] },
+      { type:'choice', question:'На вечеринке вы:', answers:[{text:'Душа компании',value:'E'},{text:'Наблюдатель',value:'I'}] },
+      { type:'choice', question:'Телефонный звонок:', answers:[{text:'Сразу отвечаю',value:'E'},{text:'Сначала думаю, потом перезваниваю',value:'I'}] },
+      { type:'choice', question:'Идеальный вечер:', answers:[{text:'Шумная компания',value:'E'},{text:'Книга и чай',value:'I'}] }
+    ],
+    calcResult(scores){ const e=scores.filter(v=>v==='E').length, i=scores.filter(v=>v==='I').length; return e>i?'E':'I'; },
+    results:[
+      {key:'E',title:'🎉 Экстраверт',description:'Вы черпаете энергию от общения. Вы открыты и общительны.',emoji:'🎉',color:'#f59e0b'},
+      {key:'I',title:'🌙 Интроверт',description:'Восстанавливаете силы в уединении. Глубокий внутренний мир.',emoji:'🌙',color:'#7c3aed'}
+    ]
+  },
+  {
+    id:'element', title:'🌍 Какая ты стихия?', category:'personality', emoji:'🌍', questionsCount:6, timeLimit:0, difficulty:'easy', badges:[],
+    questions:[
+      { type:'choice', question:'Что вас привлекает?', answers:[{text:'Костер',value:'fire'},{text:'Океан',value:'water'},{text:'Горы',value:'earth'},{text:'Небо',value:'air'}] },
+      { type:'choice', question:'Ваш характер:', answers:[{text:'Вспыльчивый, но отходчивый',value:'fire'},{text:'Спокойный, глубокий',value:'water'},{text:'Надёжный, упорный',value:'earth'},{text:'Лёгкий, переменчивый',value:'air'}] },
+      { type:'slider', question:'Насколько вы эмоциональны?', min:0,max:100, labels:['Спокойный','Вулкан'] },
+      { type:'choice', question:'Любимое время года:', answers:[{text:'Лето',value:'fire'},{text:'Зима',value:'water'},{text:'Осень',value:'earth'},{text:'Весна',value:'air'}] },
+      { type:'choice', question:'Как вы принимаете решения?', answers:[{text:'Быстро, интуитивно',value:'fire'},{text:'Долго обдумываю',value:'water'},{text:'Планомерно',value:'earth'},{text:'Импульсивно',value:'air'}] },
+      { type:'choice', question:'Ваш девиз:', answers:[{text:'Гореть, а не тлеть',value:'fire'},{text:'Вода камень точит',value:'water'},{text:'Терпение и труд',value:'earth'},{text:'Вольный ветер',value:'air'}] }
+    ],
+    calcResult(scores){ const f={}; scores.forEach(s=>{if(typeof s==='string')f[s]=(f[s]||0)+1}); return Object.entries(f).sort((a,b)=>b[1]-a[1])[0][0]; },
+    results:[
+      {key:'fire',title:'🔥 Огонь',description:'Энергичный, страстный, лидер.',emoji:'🔥',color:'#ef4444'},
+      {key:'water',title:'💧 Вода',description:'Глубокий, интуитивный, спокойный.',emoji:'💧',color:'#3b82f6'},
+      {key:'earth',title:'🌿 Земля',description:'Практичный, стабильный, надёжный.',emoji:'🌿',color:'#10b981'},
+      {key:'air',title:'💨 Воздух',description:'Интеллектуальный, свободолюбивый, общительный.',emoji:'💨',color:'#94a3b8'}
+    ]
+  },
+  {
+    id:'color-personality', title:'🎨 Какой ты цвет?', category:'personality', emoji:'🎨', questionsCount:6, timeLimit:0, difficulty:'easy', badges:[],
+    questions:[
+      { type:'choice', question:'Утро начинается с...', answers:[{text:'Энергичной зарядки',value:'red'},{text:'Медитации',value:'blue'},{text:'Творческого порыва',value:'green'},{text:'Размышлений',value:'purple'}] },
+      { type:'choice', question:'Ваш идеальный отдых:', answers:[{text:'Экстремальный спорт',value:'red'},{text:'Пляж с книгой',value:'blue'},{text:'Прогулка в лесу',value:'green'},{text:'Арт-галерея',value:'purple'}] },
+      { type:'slider', question:'Насколько вы активны?', min:0,max:100, labels:['Спокойный','Гиперактивный'] },
+      { type:'choice', question:'Что в людях раздражает?', answers:[{text:'Медлительность',value:'red'},{text:'Агрессия',value:'blue'},{text:'Равнодушие',value:'green'},{text:'Поверхностность',value:'purple'}] },
+      { type:'choice', question:'Какую музыку предпочитаете?', answers:[{text:'Рок/энергичную',value:'red'},{text:'Джаз/классику',value:'blue'},{text:'Фолк/этно',value:'green'},{text:'Электронику',value:'purple'}] },
+      { type:'choice', question:'Ваш девиз:', answers:[{text:'Действуй!',value:'red'},{text:'Сохраняй спокойствие',value:'blue'},{text:'Живи в гармонии',value:'green'},{text:'Думай нестандартно',value:'purple'}] }
+    ],
+    calcResult(scores){ const f={}; scores.forEach(s=>{if(typeof s==='string')f[s]=(f[s]||0)+1}); return Object.entries(f).sort((a,b)=>b[1]-a[1])[0][0]; },
+    results:[
+      {key:'red',title:'❤️ Красный',description:'Энергичный, страстный, любите быть в центре внимания.',emoji:'❤️',color:'#ef4444'},
+      {key:'blue',title:'💙 Синий',description:'Спокойный, надёжный, цените гармонию.',emoji:'💙',color:'#3b82f6'},
+      {key:'green',title:'💚 Зелёный',description:'Прирождённый миротворец, любите рост и развитие.',emoji:'💚',color:'#10b981'},
+      {key:'purple',title:'💜 Фиолетовый',description:'Креативная душа, видите мир иначе.',emoji:'💜',color:'#a855f7'}
     ]
   },
   // ========== Отношения (2 теста) ==========
@@ -307,7 +393,7 @@ const TESTS_DB = [
       { range:[4,9], title:'🚀 Инноватор', description:'Вы готовы менять мир и профессию.', emoji:'🚀', color:'#06b6d4' }
     ]
   },
-  // ========== Смешные (2 теста) ==========
+  // ========== Смешные (3 теста) ==========
   {
     id:'what-fruit', title:'🍉 Какой ты фрукт?', category:'funny', emoji:'🍉', questionsCount:5, timeLimit:0, difficulty:'easy', badges:[],
     questions:[
