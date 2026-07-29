@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТвойТип — узнай себя | Тесты, психотипы, персонажи</title>
+    <meta name="description" content="Пройди тест и узнай кто ты на самом деле. IQ, психотип, персонажи, карьера, отношения. Бесплатно.">
+    <meta property="og:title" content="ТвойТип — узнай себя">
+    <meta property="og:description" content="Пройди тест и узнай кто ты на самом деле. Бесплатно.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#080812">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <canvas id="particlesCanvas"></canvas>
+
+    <div class="achievement-toast" id="achievementToast">
+        <span class="ach-toast-emoji" id="achEmoji">🏆</span>
+        <div>
+            <div class="ach-toast-text" id="achTitle"></div>
+            <div class="ach-toast-sub" id="achSub"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <header class="header" id="mainHeader">
+            <div class="logo">⚡ ТвойТип</div>
+            <div class="stats-row">
+                <div class="stat-pill">⭐ <span class="stat-value" id="xpTotal">0</span> XP</div>
+                <div class="stat-pill">
+                    <div class="xp-mini-bar"><div class="xp-mini-fill" id="xpMiniFill"></div></div>
+                    <span style="font-size:0.7em;">ур. <span id="userLevel">1</span></span>
+                </div>
+                <div class="stat-pill">📖 <span class="stat-value" id="testsCompleted">0</span></div>
+                <div class="streak-badge" id="streakBadge">🔥 День 1</div>
+            </div>
+        </header>
+
+        <div class="ad-placeholder ad-banner-top" id="adBannerTop">📢 Adsterra Banner 728x90</div>
+
+        <nav class="category-nav" id="categoryNav">
+            <button class="cat-btn active" data-category="all">🔥 Все</button>
+            <button class="cat-btn" data-category="iq">🧠 IQ</button>
+            <button class="cat-btn" data-category="character">🎭 Персонажи</button>
+            <button class="cat-btn" data-category="personality">🔮 Психотип</button>
+            <button class="cat-btn" data-category="love">💕 Отношения</button>
+            <button class="cat-btn" data-category="career">💼 Карьера</button>
+            <button class="cat-btn" data-category="funny">🤪 Смешные</button>
+        </nav>
+
+        <div id="homeScreen">
+            <div class="tests-grid" id="testsGrid"></div>
+            <div class="ad-placeholder ad-inline-rect" id="adInlineRect">📢 Adsterra Native 300x250</div>
+        </div>
+
+        <div class="quiz-screen hidden" id="quizScreen">
+            <button class="back-btn" onclick="goHome()">← Назад</button>
+            <div class="quiz-header">
+                <span class="quiz-progress-text" id="quizProgressText">Вопрос 1 из 10</span>
+                <span class="quiz-timer hidden" id="quizTimer">⏱ 05:00</span>
+            </div>
+            <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+            <div id="questionContainer"></div>
+        </div>
+
+        <div class="result-screen hidden" id="resultScreen">
+            <div class="result-card" id="resultCard"></div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="shareResult()">📤 Поделиться</button>
+                <button class="btn btn-outline" onclick="retakeTest()">🔄 Пройти заново</button>
+                <button class="btn btn-gold" onclick="goHome()">🏠 К тестам</button>
+            </div>
+            <div class="ad-placeholder ad-inline-rect" style="margin-top:20px;">📢 Evadav / Adsterra</div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+</html>
