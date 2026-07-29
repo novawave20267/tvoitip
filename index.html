@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
-    <!-- Adsterra Native Banner -->
+    <!-- Adsterra Native Banner (основной скрипт) -->
     <script async="async" data-cfasync="false" src="https://pl30592150.effectivecpmnetwork.com/a50ce58881017c86eaec8c054532a543/invoke.js"></script>
 </head>
 <body>
@@ -40,8 +40,10 @@
             </div>
         </header>
 
-        <!-- Баннер 1: под шапкой -->
-        <div id="container-a50ce58881017c86eaec8c054532a543" style="max-width:728px; margin:0 auto 16px; min-height:90px;"></div>
+        <!-- Баннер 1: под шапкой, защищённый контейнер -->
+        <div style="max-width:728px; margin:0 auto 16px; overflow:hidden; position:relative; z-index:1; min-height:90px; max-height:90px;">
+            <div id="container-a50ce58881017c86eaec8c054532a543"></div>
+        </div>
 
         <nav class="category-nav" id="categoryNav">
             <button class="cat-btn active" data-category="all">🔥 Все</button>
@@ -56,11 +58,15 @@
         <div id="homeScreen">
             <div class="tests-grid" id="testsGrid"></div>
             
-            <!-- Баннер 2: между карточками и концом -->
-            <div id="container-a50ce58881017c86eaec8c054532a543-2" style="max-width:300px; margin:16px auto; min-height:250px;"></div>
+            <!-- Баннер 2: между карточками и концом, защищённый -->
+            <div style="max-width:300px; margin:16px auto; overflow:hidden; position:relative; z-index:1; min-height:250px; max-height:250px;">
+                <div id="container-a50ce58881017c86eaec8c054532a543-2"></div>
+            </div>
             
-            <!-- Баннер 3: самый низ -->
-            <div id="container-a50ce58881017c86eaec8c054532a543-3" style="max-width:728px; margin:20px auto; min-height:90px;"></div>
+            <!-- Баннер 3: самый низ, защищённый -->
+            <div style="max-width:728px; margin:20px auto; overflow:hidden; position:relative; z-index:1; min-height:90px; max-height:90px;">
+                <div id="container-a50ce58881017c86eaec8c054532a543-3"></div>
+            </div>
         </div>
 
         <div class="quiz-screen hidden" id="quizScreen">
@@ -81,8 +87,10 @@
                 <button class="btn btn-gold" onclick="goHome()">🏠 К тестам</button>
             </div>
             
-            <!-- Баннер 4: после результата -->
-            <div id="container-a50ce58881017c86eaec8c054532a543-4" style="max-width:300px; margin:20px auto; min-height:250px;"></div>
+            <!-- Баннер 4: после результата, защищённый -->
+            <div style="max-width:300px; margin:20px auto; overflow:hidden; position:relative; z-index:1; min-height:250px; max-height:250px;">
+                <div id="container-a50ce58881017c86eaec8c054532a543-4"></div>
+            </div>
         </div>
     </div>
 
