@@ -86,8 +86,6 @@ function startTest(testId) {
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('quizScreen').classList.remove('hidden');
   document.getElementById('quizScreen').classList.add('active');
-  document.getElementById('adBannerTop').classList.add('hidden');
-  document.getElementById('adInlineRect').classList.add('hidden');
 
   if (STATE.timeLeft > 0) {
     document.getElementById('quizTimer').classList.remove('hidden');
@@ -151,12 +149,7 @@ function nextQuestion() {
   } else {
     renderQuestion();
     updateQuizProgress();
-    if (STATE.currentQuestionIndex > 0 && STATE.currentQuestionIndex % 5 === 0) {
-      const adDiv = document.createElement('div');
-      adDiv.className = 'ad-placeholder'; adDiv.style.minHeight='100px'; adDiv.textContent='📢 Mid-roll Ad';
-      document.getElementById('questionContainer').appendChild(adDiv);
-      setTimeout(() => adDiv.remove(), 5000);
-    }
+    // реклама в середине теста отключена, чтобы не ломать вёрстку
   }
 }
 
@@ -182,13 +175,11 @@ function finishTest() {
     const key = test.calcResult(STATE.answers);
     result = test.results.find(r => r.key === key);
   } else {
-    // Суммируем только числовые ответы для балльных тестов
     const score = STATE.answers.reduce((sum, v) => sum + (typeof v === 'number' ? v : 0), 0);
     result = test.results.find(r => score >= r.range[0] && score < r.range[1]);
     if (!result) result = test.results[test.results.length-1];
-    // Сохраняем score для отображения
     STATE.lastScore = score;
-    STATE.lastTotal = test.questions.filter(q => q.type === 'choice').length; // приблизительно
+    STATE.lastTotal = test.questions.filter(q => q.type === 'choice').length;
   }
   STATE.testHistory.push({
     testId: test.id,
@@ -229,8 +220,6 @@ function goHome() {
   document.getElementById('homeScreen').classList.remove('hidden');
   document.getElementById('quizScreen').classList.remove('active'); document.getElementById('quizScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.remove('active'); document.getElementById('resultScreen').classList.add('hidden');
-  document.getElementById('adBannerTop').classList.remove('hidden');
-  document.getElementById('adInlineRect').classList.remove('hidden');
   STATE.currentTest = null; STATE.answers = [];
   updateUI();
   window.scrollTo({top:0, behavior:'smooth'});
