@@ -12,11 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
-    <!-- Adsterra Native Banner (основной скрипт) -->
+    <!-- Adsterra Native Banner -->
     <script async="async" data-cfasync="false" src="https://pl30592150.effectivecpmnetwork.com/a50ce58881017c86eaec8c054532a543/invoke.js"></script>
 </head>
 <body>
     <canvas id="particlesCanvas"></canvas>
+    <canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;"></canvas>
 
     <div class="achievement-toast" id="achievementToast">
         <span class="ach-toast-emoji" id="achEmoji">🏆</span>
@@ -40,7 +41,7 @@
             </div>
         </header>
 
-        <!-- Баннер 1: под шапкой, защищённый контейнер -->
+        <!-- Баннер 1: под шапкой -->
         <div style="max-width:728px; margin:0 auto 16px; overflow:hidden; position:relative; z-index:1; min-height:90px; max-height:90px;">
             <div id="container-a50ce58881017c86eaec8c054532a543"></div>
         </div>
@@ -58,12 +59,12 @@
         <div id="homeScreen">
             <div class="tests-grid" id="testsGrid"></div>
             
-            <!-- Баннер 2: между карточками и концом, защищённый -->
+            <!-- Баннер 2: между карточками -->
             <div style="max-width:300px; margin:16px auto; overflow:hidden; position:relative; z-index:1; min-height:250px; max-height:250px;">
                 <div id="container-a50ce58881017c86eaec8c054532a543-2"></div>
             </div>
             
-            <!-- Баннер 3: самый низ, защищённый -->
+            <!-- Баннер 3: самый низ -->
             <div style="max-width:728px; margin:20px auto; overflow:hidden; position:relative; z-index:1; min-height:90px; max-height:90px;">
                 <div id="container-a50ce58881017c86eaec8c054532a543-3"></div>
             </div>
@@ -87,7 +88,7 @@
                 <button class="btn btn-gold" onclick="goHome()">🏠 К тестам</button>
             </div>
             
-            <!-- Баннер 4: после результата, защищённый -->
+            <!-- Баннер 4: после результата -->
             <div style="max-width:300px; margin:20px auto; overflow:hidden; position:relative; z-index:1; min-height:250px; max-height:250px;">
                 <div id="container-a50ce58881017c86eaec8c054532a543-4"></div>
             </div>
