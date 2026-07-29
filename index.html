@@ -11,6 +11,9 @@
     <meta name="theme-color" content="#080812">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Adsterra Native Banner -->
+    <script async="async" data-cfasync="false" src="https://pl30592150.effectivecpmnetwork.com/a50ce58881017c86eaec8c054532a543/invoke.js"></script>
 </head>
 <body>
     <canvas id="particlesCanvas"></canvas>
@@ -37,7 +40,8 @@
             </div>
         </header>
 
-        <div class="ad-placeholder ad-banner-top" id="adBannerTop">📢 Adsterra Banner 728x90</div>
+        <!-- Баннер 1: под шапкой -->
+        <div id="container-a50ce58881017c86eaec8c054532a543" style="max-width:728px; margin:0 auto 16px; min-height:90px;"></div>
 
         <nav class="category-nav" id="categoryNav">
             <button class="cat-btn active" data-category="all">🔥 Все</button>
@@ -51,7 +55,12 @@
 
         <div id="homeScreen">
             <div class="tests-grid" id="testsGrid"></div>
-            <div class="ad-placeholder ad-inline-rect" id="adInlineRect">📢 Adsterra Native 300x250</div>
+            
+            <!-- Баннер 2: между карточками и концом -->
+            <div id="container-a50ce58881017c86eaec8c054532a543-2" style="max-width:300px; margin:16px auto; min-height:250px;"></div>
+            
+            <!-- Баннер 3: самый низ -->
+            <div id="container-a50ce58881017c86eaec8c054532a543-3" style="max-width:728px; margin:20px auto; min-height:90px;"></div>
         </div>
 
         <div class="quiz-screen hidden" id="quizScreen">
@@ -71,9 +80,17 @@
                 <button class="btn btn-outline" onclick="retakeTest()">🔄 Пройти заново</button>
                 <button class="btn btn-gold" onclick="goHome()">🏠 К тестам</button>
             </div>
-            <div class="ad-placeholder ad-inline-rect" style="margin-top:20px;">📢 Evadav / Adsterra</div>
+            
+            <!-- Баннер 4: после результата -->
+            <div id="container-a50ce58881017c86eaec8c054532a543-4" style="max-width:300px; margin:20px auto; min-height:250px;"></div>
         </div>
     </div>
+
+    <!-- Adsterra Popunder -->
+    <script src="https://pl30592148.effectivecpmnetwork.com/b8/e3/b3/b8e3b3159ade383a01e97f3799efa216.js"></script>
+    
+    <!-- Adsterra Social Bar -->
+    <script src="https://pl30592149.effectivecpmnetwork.com/b9/05/61/b905618df68eff4b8e28ddca85ea8d63.js"></script>
 
     <script src="data.js"></script>
     <script src="engine.js"></script>
