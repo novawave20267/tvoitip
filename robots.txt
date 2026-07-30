@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://novawave20267.github.io/tvoitip/sitemap.xml
